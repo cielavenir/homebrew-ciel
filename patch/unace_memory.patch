@@ -1,0 +1,15 @@
+--- source/base/all/memory/memory.c.orig	2016-09-24 03:38:02.000000000 +0900
++++ source/base/all/memory/memory.c	2016-09-24 03:38:19.000000000 +0900
+@@ -1,9 +1,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
+-#ifndef __MACOSX__
+-	#include <malloc.h>
+-#endif
++//#ifndef __MACOSX__
++//	#include <malloc.h>
++//#endif
+ 
+ #define INCL_BASE_MEMORY_EXCLUSIVE
+ 
