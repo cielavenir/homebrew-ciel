@@ -12,12 +12,9 @@ class Unace < Formula
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/unace_unincore.patch'
 		sha256 '35d534d45d88d55c0384f3e588318ab322ba9d240bd5ac37dc8e259e90c1d311'
 	end
-	patch :p0 do
-		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/unace_memory.patch'
-		sha256 '71d2c99e308337cbadc24ceb7dd19971d3b946e638cd88bb938e78e0484b4569'
-	end
 
 	def install
+		system 'sed', '-i', '-e', 's/.*malloc.h.*//', 'source/base/all/memory/memory.c' # somehow patch is failing...
 		system 'make'
 		system 'cp', 'unace', prefix
 	end
