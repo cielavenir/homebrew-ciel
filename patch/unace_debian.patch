@@ -85,8 +85,8 @@ Description: Call C-Compiler via $(CC), consider CFLAGS, remove -static flag,
  drop linking against libncurses and change include dir order.
  Furthermore use standard env vars and remove pointless -I paths.
 
---- a/makefile
-+++ b/makefile
+--- unace-nonfree-2.5.orig/makefile
++++ unace-nonfree-2.5/makefile
 @@ -14,17 +14,16 @@ PACKAGES_DIRsl  =
  SRCSsl          = $(BASIC_DIR)source
  SRCS            = $(SRCSsl)/
@@ -115,7 +115,7 @@ Description: Call C-Compiler via $(CC), consider CFLAGS, remove -static flag,
  
  unace: $(UNACEEXELIN_CFILES)
 -	gcc $(LSWITCHES) -Wl,-lncurses -static -I$(INCLDIR) -I$(INCLSYSDIR) -I$(SRCSsl) $(DEFINES) $(UNACEEXELIN_CFILES) -ggdb -o$(EXECS_DIR)unace
-+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(INCLS) -I$(SRCSsl) $(DEFINES) $(UNACEEXELIN_CFILES) -o$(EXECS_DIR)unace
++	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(INCLS) -I$(SRCSsl) $(DEFINES) $(UNACEEXELIN_CFILES) -ggdb -o$(EXECS_DIR)unace
  ifndef DEBUG
  	tar cfvz linunace25.tgz unace file_id.diz licence
  	#sh linpack.sh
@@ -1162,19 +1162,18 @@ Description: This patch make the check for endianness actually occur.
 Bug-Gentoo: https://bugs.gentoo.org/show_bug.cgi?id=222301
 Origin: https://bugs.gentoo.org/attachment.cgi?id=241251
 
---- a/source/base/all/all.h
-+++ b/source/base/all/all.h
-@@ -61,7 +61,8 @@ memmove((ptr), &__tmp, sizeof(*(ptr)));
+--- unace-nonfree-2.5.orig/source/base/all/all.h
++++ unace-nonfree-2.5/source/base/all/all.h
+@@ -61,7 +61,7 @@ memmove((ptr), &__tmp, sizeof(*(ptr)));
  #define put_unaligned(ptr, val) ((void)( *(ptr) = (val) ))
  #endif /* __EMULATE_UNALIGNED__ */
  
 -#ifdef __BIG_ENDIAN__
-+#include <endian.h>
 +#if __BYTE_ORDER == __BIG_ENDIAN
  #define ADJUST_ENDIANNESS16(Ptr) {\
    USHORT x = get_unaligned((USHORT*) (Ptr));\
    put_unaligned((USHORT*) (Ptr), x >> 8 | x << 8);\
-@@ -78,10 +79,12 @@ memmove((ptr), &__tmp, sizeof(*(ptr)));
+@@ -78,10 +78,12 @@ memmove((ptr), &__tmp, sizeof(*(ptr)));
    x2 = x2 >> 16 | x2 << 16;\
    put_unaligned(((ULONG*) (Ptr)), (x2&0xff00ff00) >> 8 | (x2&0x00ff00ff) << 8);\
  }
@@ -1188,6 +1187,7 @@ Origin: https://bugs.gentoo.org/attachment.cgi?id=241251
  #endif
  
  #endif
+
 Author: Fabian Greffrath <fabian+debian@greffrath.com>
 Description: Fix format string vulnarability.
 
@@ -1202,165 +1202,3 @@ Description: Fix format string vulnarability.
  #ifndef __sun__
      fflush(stdout);
  #endif
-Author: Fabian Greffrath <fabian+debian@greffrath.com>
-Description: Fix buffer overflows when using long filenames or
- passwords as arguments. Thanks, Antoine Cervoise.
-Bug-Debian: https://bugs.debian.org/736929
-
---- a/source/apps/unace/exe/commline/commline.c
-+++ b/source/apps/unace/exe/commline/commline.c
-@@ -474,8 +474,10 @@ INT       SwitchNumber,
- 
-           case APPS_UNACE_EXE_COMMLINE_SWITCH_P:
-           {
--            strcpy(BASE_OPTIONS.ExtractOptions.CryptionData.Password,
--                   Switch + 1);
-+            const size_t size = sizeof(BASE_OPTIONS.ExtractOptions.CryptionData.Password) - 1;
-+            strncpy(BASE_OPTIONS.ExtractOptions.CryptionData.Password,
-+                    Switch + 1, size);
-+            BASE_OPTIONS.ExtractOptions.CryptionData.Password[size] = 0;
- 
-             BASE_CRYPT.DoUseCurrentPassword = 1;
- 
-@@ -539,8 +541,10 @@ PCHAR     PointPos;
-   {
-     if (APPS_EXE_COMMLINE.ArgumentCount < APPS_EXE_COMMLINE.ArgumentsNumber)
-     {
--      strcpy(APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName,
--             APPS_EXE_COMMLINE.Arguments[APPS_EXE_COMMLINE.ArgumentCount++]);
-+      const size_t size = sizeof(APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName) - 1;
-+      strncpy(APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName,
-+              APPS_EXE_COMMLINE.Arguments[APPS_EXE_COMMLINE.ArgumentCount++], size);
-+      APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName[size] = 0;
- 
-       BASE_PATHFUNC_ToSystemPathSeparator(APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName);
- 
-@@ -555,6 +559,8 @@ PCHAR     PointPos;
-               && !BASE_CONVERT_StrICmp(PointPos, ".ace")
-               && !BASE_CONVERT_StrICmp(PointPos, ".exe")))
-       {
-+        if (size - strlen(APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName) >=
-+            strlen(BASE_ACESTRUC_EXTENSION))
-         strcat(APPS_UNACE_EXE_COMMLINE.WildcardedArchiveName,
-                BASE_ACESTRUC_EXTENSION);
-       }
-Author: Fabian Greffrath <fabian+debian@greffrath.com>
-Description: Avoid undefined behaviour when strcpy(3) is
- called with the same pointer as source and destination.
- Thanks, Jakub Wilk.
-Bug-Debian: https://bugs.debian.org/775132
-
---- a/source/base/all/lfn/lfn.c
-+++ b/source/base/all/lfn/lfn.c
-@@ -30,8 +30,6 @@ INT     BASE_LFN_ChangeDir(PCHAR Directo
- PCHAR   BASE_LFN_GetCurrentDir(PCHAR Directory, size_t Size)
- {
-   Directory = (PCHAR) getcwd(Directory, Size);
--  
--  strcpy(Directory, BASE_LFN_LongName(Directory));
- 
-   return Directory;
- }
-Author: Fabian Greffrath <fabian+debian@greffrath.com>
-Description: Fix a stack corruption while trying to verify integrity
- of a fuzzed file. Thanks again, Jakub Wilk.
-Bug-Debian: https://bugs.debian.org/775134
-
---- a/source/base/all/uninorm/uninorm.c
-+++ b/source/base/all/uninorm/uninorm.c
-@@ -36,6 +36,9 @@ INT BASE_UNINORM_CP850ToUTF8NFC(UCHAR *c
-    UINT Unicode[BASE_LFN_MAXLEN+1], Normalized[BASE_LFN_MAXLEN+1], *destptr = Unicode;
-    UCHAR *srcptr = cp850String, *resultstr = cp850String;
- 
-+   if ((UINT) len >= BASE_LFN_MAXLEN)
-+     len = BASE_LFN_MAXLEN - 1;
-+
-    srcptr[len] = 0;
-    /* First, convert that DOS CP850 encoded String to Unicode */
-    while (*srcptr)
-@@ -48,6 +51,7 @@ INT BASE_UNINORM_CP850ToUTF8NFC(UCHAR *c
-    /* Then normalize and return UTF-8 encoded in place of the input string */
-    normalize_nfc(Normalized, Unicode);
-    encode_utf8(resultstr, Normalized);
-+   resultstr[len] = 0;
- 
-    
-    return strlen(resultstr);
---- a/source/base/all/uninorm/unincore.c
-+++ b/source/base/all/uninorm/unincore.c
-@@ -17,6 +17,7 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-+#include "base/all/includes.h" /* BASE_LFN_MAXLEN */
- #include "unidata.h"
- 
- /* Hangul constants */
-@@ -33,7 +34,7 @@
- 
- /* convenience null */
- #define null 0
--#define MAX_FILENAME_SIZE 2048
-+#define MAX_FILENAME_SIZE BASE_LFN_MAXLEN
- 
- 
- /**
-@@ -367,7 +368,7 @@ void canonical_decomposition(uint *buf,
-     uint temp[MAX_FILENAME_SIZE];
-     temp[0] = null;
- 
--    for (i = 0; i < length; ++i)
-+    for (i = 0; i < length && pos < MAX_FILENAME_SIZE; ++i)
-     {
-         decompose_recursive(temp, str[i]);
-         len = istrlen(temp);
-@@ -458,7 +459,7 @@ void encode_utf8(char *buf, uint *str)
-     int i, j = 0;
-     int len = istrlen(str);
- 
--    for (i = 0; i < len; ++i)
-+    for (i = 0; i < len && j < MAX_FILENAME_SIZE; ++i)
-     {
-         uint c = str[i];
- 
-Author: Fabian Greffrath <fabian+debian@greffrath.com>
-Description: Allocate a whole 16 MB at once instead of iterating in
- 128 kB steps. Thanks again, Jakub Wilk.
-Bug-Debian: https://bugs.debian.org/775508
-
---- a/source/base/all/memory/lin.c
-+++ b/source/base/all/memory/lin.c
-@@ -22,6 +22,7 @@ struct 	  rusage ru;
- 
-   Buf = NULL;
- 
-+#if 0
-   while (Size < BASE_MEMORY_EXTERN_MaxMemoryRequirement()
-          && (NewBuf = (char*) realloc(Buf, Size + STEP)))
-   {
-@@ -48,6 +49,8 @@ struct 	  rusage ru;
- 
-   free(Buf);
-   BASE_MEMORY.MaxAllocate  = Size;
-+#endif
-+  BASE_MEMORY.MaxAllocate  = BASE_MEMORY_EXTERN_MaxMemoryRequirement();
- 
-   BASE_MEMORY_InitAlloc();
- }
-Author: Jakub Wilk <jwilk@debian.org>
-Description: Do not hang forever if stdin is redirected to /dev/null.
-Bug-Debian: https://bugs.debian.org/775511
-
---- a/source/apps/exe/input/lin.c
-+++ b/source/apps/exe/input/lin.c
-@@ -40,6 +40,10 @@ BOOL    APPS_EXE_INPUT_KeyHit(void)
- fd_set fds;
- struct timeval tv;
- 
-+  if (!isatty(0))
-+  {
-+    return 0;
-+  }
-   FD_ZERO(&fds);
-   FD_SET(0, &fds);
-   tv.tv_sec = 0;

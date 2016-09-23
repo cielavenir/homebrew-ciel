@@ -6,7 +6,11 @@ class Unace < Formula
 
 	patch do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/unace_debian.patch'
-		sha256 '1dfe8c1f9b3f82776733d8661813e8a9bb8b0237b140505109d1a7f31afe355f'
+		sha256 '7eb6459b89db63bdb65145644a096c5eb5e639407a1063673cbdda5225bd477a'
+	end
+	patch do
+		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/unace_unincore.patch'
+		sha256 'fec3097205d6c955d6007eb864db071d1d490c0e3120abec99573344825a5b42'
 	end
 end
 
