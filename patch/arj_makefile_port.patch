@@ -1,0 +1,15 @@
+--- gnu/makefile.in	2016-09-24 01:35:08.000000000 +0900
++++ gnu/makefile.in.new	2016-09-24 01:37:27.000000000 +0900
+@@ -275,7 +275,11 @@
+ $(ARJCRYPT_DIR)/arjcrypt$d: $(ARJCRYPT_OBJS) $(TOOLS_DIR)/postproc$x
+ 	$(CC) $(ALL_CFLAGS) $(DLL_FLAGS) -o $@ $(ARJCRYPT_OBJS) $(ARJCRYPT_DEF) $(LIBS)
+ 	$(STRIP) $@
+-	$(TOOLS_DIR)/postproc $@
++# Skip postproc step since it doesn't currently work.  We aren't producing an
++# EXE here, and postproc.c says that postproc is for storing the CRC of ARJ.EXE
++# in a file so that "ARJ i" can locate it, so I'm not sure that it's necessary
++# to postproc this anyway.
++#	$(TOOLS_DIR)/postproc $@
+ 
+ $(BASEDIR)/nmsg_crp.c $(BASEDIR)/msg_crp.h: $(TOOLS_DIR)/msgbind$x $(RESFILE)
+ 	$(TOOLS_DIR)/msgbind $(RESFILE) msg_crp $(OS_ID) $(PACKAGE) $(LOCALE) $(BASEDIR)
