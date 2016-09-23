@@ -16,6 +16,6 @@ class Unace < Formula
 	def install
 		system 'sed', '-i', '-e', 's/.*malloc.h.*//', 'source/base/all/memory/memory.c' # somehow patch is failing...
 		system 'make'
-		system 'cp', 'unace', prefix
+		bin.install 'unace'
 	end
 end
