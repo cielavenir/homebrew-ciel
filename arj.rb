@@ -25,7 +25,12 @@ class Arj < Formula
 		sha256 'a4a332c9e7015f9b32f3bcc73966653dcbe606ec8e44e7d6fb08216aae828eee'
 	end
 
+	def caveats
+		'x86_64 edition could be broken. Always use with "arch -i386".'
+	end
+
 	def install
+		ENV.universal_binary
 		uname=`uname -r`.chomp
 		system 'sed', '-i', '-e', 's/strnlen/arjstrnlen/g', 'fardata.c'
 		Dir.chdir('gnu')
