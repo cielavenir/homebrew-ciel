@@ -6,19 +6,10 @@ class Unace < Formula
 
 	patch do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/unace_debian.patch'
-		sha256 '7eb6459b89db63bdb65145644a096c5eb5e639407a1063673cbdda5225bd477a'
+		sha256 'f855f7ad4d11aaa92d9c26431630dc463f826394dba8ae80737105a9849203f4'
 	end
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/unace_unincore.patch'
-		sha256 'fec3097205d6c955d6007eb864db071d1d490c0e3120abec99573344825a5b42'
+		sha256 '9fc9cd6914e1e71e0de7fd581b451db2c7eae0e193f045d5b767d4cb13bc366f'
 	end
 end
-
-__END__
-cd gnu
-cp /usr/local/share/libtool/build-aux/config.guess ./
-cp /usr/local/share/libtool/build-aux/config.sub ./
-/usr/local/bin/autoconf
-sh configure
-cd ..
-make
