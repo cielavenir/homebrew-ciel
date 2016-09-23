@@ -21,7 +21,7 @@ class Arj < Formula
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/arj_debian.patch'
 		sha256 '4b13cbad9139d5eaa2af562fdaed3efec97fbe80273b68e69f3069c9e8c701a4'
 	end
-	patch do
+	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/arj_makefile_port.patch'
 		sha256 '0e9484a06ef1275ae78e86feb952fc4511aa5cd08adeaf434de33c200a28055e'
 	end
