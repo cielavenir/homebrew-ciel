@@ -1,0 +1,12 @@
+--- mk/install.mk.orig	2016-09-24 21:44:24.000000000 +0900
++++ mk/install.mk	2016-09-24 21:44:36.000000000 +0900
+@@ -12,8 +12,7 @@
+ 	sh ../../tmp/dist/$(1)/install.sh \
+ 		--prefix="$(DESTDIR)$(CFG_PREFIX)" \
+ 		--libdir="$(DESTDIR)$(CFG_LIBDIR)" \
+-		--mandir="$(DESTDIR)$(CFG_MANDIR)" \
+-		--docdir="$(DESTDIR)$(CFG_DOCDIR)"
++		--mandir="$(DESTDIR)$(CFG_MANDIR)"
+ 
+ install:
+ ifeq (root user, $(USER) $(patsubst %,user,$(SUDO_USER)))
