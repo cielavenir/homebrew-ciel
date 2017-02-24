@@ -1,8 +1,16 @@
+class SubversionGuestDownloadStrategy < SubversionDownloadStrategy
+	alias quiet_safe_system_real quiet_safe_system
+	def quiet_safe_system(*args)
+		# acknowledgement: http://hsp.tv/play/pforum.php?mode=pastwch&num=67160
+		args+=%w(--username guest --password guest) if args.size>1&&%w(up update co checkout).include?(args[1])
+		quiet_safe_system_real(*args)
+	end
+end
+
 class Openhsp < Formula
 	desc 'Programming Language HSP (open source edition)'
 	homepage 'http://www.onionsoft.net/hsp/openhsp/'
-	# acknowledgement: http://hsp.tv/play/pforum.php?mode=pastwch&num=67160
-	head 'http://guest@dev.onionsoft.net/svn/openhsp/trunk', :using => :svn
+	head 'http://dev.onionsoft.net/svn/openhsp/trunk', :using => SubversionGuestDownloadStrategy
 
 	def install
 		system 'sed -e "s/--input-charset=cp932 --exec-charset=cp932//" < hsp3/makefile.linux > hsp3/makefile.clang'
