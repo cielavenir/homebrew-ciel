@@ -4,8 +4,8 @@
  
  # GCC コンパイラオプション
  type = Linux64
--OPT_COMP = -D${type} -Wall -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include
-+OPT_COMP = -D${type} -D __MATH_LONG_DOUBLE_CONSTANTS -Wall -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include
+-OPT_COMP = -Wall -Werror -Wno-unused-but-set-variable -Wno-maybe-uninitialized -D${type} -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include
++OPT_COMP = -Wall -Werror -Wno-unused-but-set-variable -Wno-maybe-uninitialized -D${type} -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include -D__MATH_LONG_DOUBLE_CONSTANTS
  OPT_LINK = -lm -lreadline
  
  # Ｃ言語ソースファイル＋仮想実行コードライブラリ
