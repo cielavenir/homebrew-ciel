@@ -9,15 +9,3 @@
  OPT_LINK = -lm -lreadline
  
  # Ｃ言語ソースファイル＋仮想実行コードライブラリ
---- icode/proc.call/i_proc.c.orig	2015-04-15 13:32:17.000000000 +0900
-+++ icode/proc.call/i_proc.c	2016-12-28 22:37:39.000000000 +0900
-@@ -59,7 +59,8 @@
- 	a = ctr2p_dtab( ans=ext_ctrdtab(ctr) );
- 
- /* Do SYSTEM()!! */						// Exit Status => A & $?
-+	int result=system(x->str);
-+	a->type='I'; a->ival=WEXITSTATUS(result); cpy_dtab(PTR2DOLQ(),a); return ans;
--	a->type='I'; a->ival=WEXITSTATUS(system(x->str)); cpy_dtab(PTR2DOLQ(),a); return ans;
- }
- 
- /***1***2***3***4***5***6***7***8***9***A***B***C***D***E***F***G***H***I***J***K***L***M***N****/
