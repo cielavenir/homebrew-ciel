@@ -2,6 +2,8 @@
 # Older website (dead): http://air-lang.sourceforge.jp/
 # Older manual: https://www20.atwiki.jp/air-lang/
 
+# Note: this formula requires OSX 10.11 (or later) to accept __MATH_LONG_DOUBLE_CONSTANTS.
+
 class Twintail < Formula
 	desc 'Programming Language AIR / TwinTail'
 	homepage 'http://angelmode.sourceforge.jp/'
@@ -10,10 +12,11 @@ class Twintail < Formula
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
-		sha256 '122ef9dcaee19f067e58dcf7d1b4c6d06f1758502159ef87a4fcd6386b786d5b'
+		sha256 '0507fed10487792608954545ecbf776fe61bcaa066430ad2d85eefdbd37cb90c'
 	end
 
 	def install
+		# due to _POSIX_C_SOURCE issue, system is rvalue.
 		system 'sed', '-i', '-e', 's/a->ival=WEXITSTATUS(system(x->str));/{int result=system(x->str);a->ival=WEXITSTATUS(result);}/', 'icode/proc.call/i_proc.c'
 		system 'make'
 		bin.install 'tt'
