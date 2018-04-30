@@ -7,8 +7,12 @@
 class Twintail < Formula
 	desc 'Programming Language AIR / TwinTail'
 	homepage 'http://angelmode.sourceforge.jp/'
-	url 'https://osdn.net/projects/angelmode/downloads/67782/twintail_de_angelmode.costume202.tgz'
-	sha256 '1a4dadadd2b9786b6a5fbcb7cd61f0d619a2b9e995f878a0633daa5d7f587800'
+	#url 'https://osdn.net/projects/angelmode/downloads/67782/twintail_de_angemode.costume___.tgz'
+	url 'http://dl.osdn.jp/angelmode/67782/twintail_de_angelmode.costume208.tgz'
+	sha256 '43d52ac31c6628a62efd8cfab325c39f8e97759d1608da29ab09e50b2119d0ea'
+
+	depends_on 'pkg-config' => :build
+	depends_on 'libatomic_ops'
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
@@ -16,7 +20,7 @@ class Twintail < Formula
 	end
 
 	def install
-		# due to _POSIX_C_SOURCE issue, system is rvalue.
+		# due to _POSIX_C_SOURCE issue, system() is rvalue, so we need to assign to a variable first.
 		system 'sed', '-i', '-e', 's/a->ival=WEXITSTATUS(system(x->str));/{int result=system(x->str);a->ival=WEXITSTATUS(result);}/', 'icode/proc.call/i_proc.c'
 		system 'make'
 		bin.install 'tt'

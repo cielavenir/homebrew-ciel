@@ -4,6 +4,8 @@ class Arj < Formula
 	url 'http://arj.sourceforge.net/files/arj-3.10.22.tar.gz'
 	sha256 '589e4c9bccc8669e7b6d8d6fcd64e01f6a2c21fe10aad56a83304ecc3b96a7db'
 
+	depends_on 'autoconf' => :build
+
 	patch :p0 do
 		url 'https://trac.macports.org/export/153066/trunk/dports/archivers/arj/files/patch-environ.c'
 		sha256 '5bdce32f97f061114e781b0cfa05b748a3bada2e251b9f2a827c94ab0b60f813'
