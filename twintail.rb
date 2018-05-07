@@ -23,7 +23,6 @@ class Twintail < Formula
 	end
 
 	option 'with-oldlibm', 'Build with old libm, disabling tgmath and long double support'
-	option 'with-gmtoff', 'Use tm_gmtoff rather than timezone global variable'
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
@@ -33,12 +32,11 @@ class Twintail < Formula
 	def install
 		# due to _POSIX_C_SOURCE issue, system() is rvalue, so we need to assign to a variable first.
 		system 'sed', '-i', '-e', 's/a->ival=WEXITSTATUS(system(x->str));/{int result=system(x->str);a->ival=WEXITSTATUS(result);}/', 'icode/proc.call/i_proc.c'
+		# FreeBSD does not support timezone global variable; use tm_gmtoff
+		system 'sed', '-i', '-e', 's/gl_gmtoff /{time_t T=time(NULL);struct tm *TM=localtime(\&T);gl_gmtoff=TM->tm_gmtoff;}\/\//', 'main.c'
 		if build.with?(:oldlibm)
 			system 'sed', '-i', '-e', 's/#ifdef Linux64/#if 0/', 'admin/mdtype.h'
 			system 'sed', '-i', '-e', 's/tgmath.h/math.h/', 'main.h'
-		end
-		if build.with?(:gmtoff)
-			system 'sed', '-i', '-e', 's/gl_gmtoff /{time_t T=time(NULL);struct tm *TM=localtime(\&T);gl_gmtoff=TM->tm_gmtoff;}\/\//', 'main.c'
 		end
 		system 'make'
 		bin.install 'tt'
