@@ -26,7 +26,7 @@ class Twintail < Formula
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
-		sha256 '0507fed10487792608954545ecbf776fe61bcaa066430ad2d85eefdbd37cb90c'
+		sha256 '272c35dd2f55ea57be4b969276f9e525077cdc265025f1a68c6ae8c35f39b898'
 	end
 
 	def install
