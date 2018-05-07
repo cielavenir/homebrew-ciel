@@ -38,7 +38,7 @@ class Twintail < Formula
 			system 'sed', '-i', '-e', 's/tgmath.h/math.h/', 'main.h'
 		end
 		if build.with?(:gmtoff)
-			system 'sed', '-i', '-e', 's/gl_gmtoff /{struct tm t;localtime(\&t);gl_gmtoff=t.tm_gmtoff;}\/\//', 'main.c'
+			system 'sed', '-i', '-e', 's/gl_gmtoff /{time_t T=time(NULL);struct tm *TM=localtime(\&T);gl_gmtoff=TM->tm_gmtoff;}\/\//', 'main.c'
 		end
 		system 'make'
 		bin.install 'tt'
