@@ -21,3 +21,12 @@
  
  # BoehmDW-GC ガーベッジコレクタ
  ${BDWGC_LIB}: ${BDWGC_PKG}
+@@ -45,7 +45,7 @@
+ 	cd syntax ; bison -d -y -v bison.y  # -d(MakeHeader) -y(PosixYacc) -v(Verbose)
+ 
+ # 仮想実行コードライブラリ
+-${LIB_FILE}: ${HDR_FILE} icode/*/*.c
++${LIB_FILE}: ${HDR_FILE} icode/*/*.c ${SYN_PROG}
+ 	rm -rf ${LIB_FILE}
+ 	for d in icode/* ; \
+ 	do \
