@@ -1,9 +1,20 @@
 class SubversionGuestDownloadStrategy < SubversionDownloadStrategy
-	alias quiet_safe_system_real quiet_safe_system
-	def quiet_safe_system(*args)
-		# acknowledgement: http://hsp.tv/play/pforum.php?mode=pastwch&num=67160
-		args+=%w(--username guest --password guest) if args.size>1&&%w(up update co checkout).include?(args[1])
-		quiet_safe_system_real(*args)
+	if respond_to?(:quiet_safe_system,true)
+		alias quiet_safe_system_real quiet_safe_system
+		def quiet_safe_system(*args)
+			# acknowledgement: http://hsp.tv/play/pforum.php?mode=pastwch&num=67160
+			args+=%w(--username guest --password guest) if args.size>1&&%w(up update co checkout).include?(args[1])
+			quiet_safe_system_real(*args)
+		end
+	elsif respond_to?(:safe_system,true)
+		alias safe_system_real safe_system
+		def safe_system(*args)
+			# acknowledgement: http://hsp.tv/play/pforum.php?mode=pastwch&num=67160
+			args+=%w(--username guest --password guest) if args.size>1&&%w(up update co checkout).include?(args[1])
+			safe_system_real(*args)
+		end
+	else
+		raise 'SubversionGuestDownloadStrategy cannot get loaded'
 	end
 end
 
