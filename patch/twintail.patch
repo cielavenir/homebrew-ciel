@@ -1,32 +1,11 @@
---- Makefile.orig	2017-06-08 19:50:33.000000000 +0900
-+++ Makefile	2017-06-08 19:51:51.000000000 +0900
-@@ -14,7 +14,7 @@
+--- Makefile.orig	2018-09-24 22:44:16.000000000 +0900
++++ Makefile	2018-09-24 23:48:55.000000000 +0900
+@@ -13,7 +13,7 @@
+ BDWGC_LIB = gc-7.6.4/.libs/libgc.a
  
  # GCC コンパイラオプション
- type = Linux64
--OPT_COMP = -Wall -Werror -Wno-unused-but-set-variable -Wno-maybe-uninitialized -D${type} -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include
-+OPT_COMP = -Wall -D${type} -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include -D__MATH_LONG_DOUBLE_CONSTANTS
+-OPT_WARN = -Wall -Werror -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-format-security
++OPT_WARN = -Wall
+ OPT_COMP = -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include
  OPT_LINK = -lm -lreadline
  
- # Ｃ言語ソースファイル＋仮想実行コードライブラリ
-@@ -31,9 +31,9 @@
- #------------------------------------------------------------------------------------------------#
- # インタプリタ本体
- ${EXE_ENGINE}: ${BDWGC_LIB} ${HDR_FILE} ${SRC_FILE} ${SYN_PROG} ${LIB_FILE} FORCE
--	gcc     ${OPT_COMP} -o ${EXE_ENGINE} ${SRC_FILE} syntax/{lex.yy.c,y.tab.c} ${LIB_FILE} ${BDWGC_LIB} ${OPT_LINK}
-+	gcc     ${OPT_COMP} -o ${EXE_ENGINE} ${SRC_FILE} syntax/lex.yy.c syntax/y.tab.c ${LIB_FILE} ${BDWGC_LIB} ${OPT_LINK}
- O3:            ${BDWGC_LIB} ${HDR_FILE} ${SRC_FILE} ${SYN_PROG} ${LIB_FILE} FORCE
--	gcc -O3 ${OPT_COMP} -o ${EXE_ENGINE} ${SRC_FILE} syntax/{lex.yy.c,y.tab.c} ${LIB_FILE} ${BDWGC_LIB} ${OPT_LINK}
-+	gcc -O3 ${OPT_COMP} -o ${EXE_ENGINE} ${SRC_FILE} syntax/lex.yy.c syntax/y.tab.c ${LIB_FILE} ${BDWGC_LIB} ${OPT_LINK}
- 
- # BoehmDW-GC ガーベッジコレクタ
- ${BDWGC_LIB}: ${BDWGC_PKG}
-@@ -45,7 +45,7 @@
- 	cd syntax ; bison -d -y -v bison.y  # -d(MakeHeader) -y(PosixYacc) -v(Verbose)
- 
- # 仮想実行コードライブラリ
--${LIB_FILE}: ${HDR_FILE} icode/*/*.c
-+${LIB_FILE}: ${HDR_FILE} icode/*/*.c ${SYN_PROG}
- 	rm -rf ${LIB_FILE}
- 	for d in icode/* ; \
- 	do \

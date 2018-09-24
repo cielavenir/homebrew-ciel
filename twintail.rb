@@ -16,8 +16,8 @@ class Twintail < Formula
 		url 'http://dl.osdn.jp/angelmode/67782/twintail_de_angelmode.costume203.tgz'
 		sha256 '48d3bab53a2a453954b45c4c3a5976c7174a00822d0d55834ee08c7530caf662'
 	else
-		url 'http://dl.osdn.jp/angelmode/67782/twintail_de_angelmode.costume208.tgz'
-		sha256 '43d52ac31c6628a62efd8cfab325c39f8e97759d1608da29ab09e50b2119d0ea'
+		url 'http://dl.osdn.jp/angelmode/70059/twintail_de_angelmode.costume223.tgz'
+		sha256 'c452e46fdbdae0c395754df910919ff35d455238515eea4cf2ed772e962ce303'
 		depends_on 'pkg-config' => :build
 		depends_on 'libatomic_ops'
 	end
@@ -26,7 +26,7 @@ class Twintail < Formula
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
-		sha256 '272c35dd2f55ea57be4b969276f9e525077cdc265025f1a68c6ae8c35f39b898'
+		sha256 '8ce77911c38451b337ffc383e650020c710b0eda769aa46312424cd72e3f0ddd'
 	end
 
 	def install
@@ -35,7 +35,7 @@ class Twintail < Formula
 		# FreeBSD does not support timezone global variable; use tm_gmtoff
 		system 'sed', '-i', '-e', 's/gl_gmtoff /{time_t T=time(NULL);struct tm *TM=localtime(\&T);gl_gmtoff=TM->tm_gmtoff;}\/\//', 'main.c'
 		if build.with?(:oldlibm)
-			system 'sed', '-i', '-e', 's/#ifdef Linux64/#if 0/', 'admin/mdtype.h'
+			#system 'sed', '-i', '-e', 's/#ifdef Linux64/#if 0/', 'admin/mdtype.h'
 			system 'sed', '-i', '-e', 's/tgmath.h/math.h/', 'main.h'
 		end
 		system 'make'
