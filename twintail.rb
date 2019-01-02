@@ -32,7 +32,7 @@ class Twintail < Formula
 	if `uname`.chomp.end_with?('BSD') || `uname`.chomp=='Darwin'
 		patch :p1 do
 			url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail_disablenet.patch'
-			sha256 '9e5e166b18a4eee1e1fbc15c65f865d315158dcbdfdf6141a83e672a9d58bc85'
+			sha256 '029a07ea646386a6440953c92ff40675f811c4fa76a3ad3d69a400f9a8706d09'
 		end
 	end
 

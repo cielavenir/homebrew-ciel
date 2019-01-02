@@ -41,6 +41,23 @@ diff -ur a/main.c b/main.c
  /* Process Option(s) for TT-Engine */
  	for( idx=1 ; idx<argc ; idx++ ){	/* idx = 1,2,3, ... argc-1								*/
  
+diff -ur a/main.h b/main.h
+--- a/main.h	2019-01-01 23:42:55.000000000 +0900
++++ b/main.h	2019-01-03 00:15:29.000000000 +0900
+@@ -46,13 +46,6 @@
+ #include	<sys/types.h>				// POSIX Spec ( Defacto Standard )
+ #include	<sys/wait.h>				// POSIX Spec ( Defacto Standard )
+ 
+-#include	<netdb.h>					// TCP/IP Networking
+-#include	<netinet/ip.h>				// TCP/IP Networking
+-#include	<netinet/ip_icmp.h>			// TCP/IP Networking
+-#include	<netinet/tcp.h>				// TCP/IP Networking
+-#include	<netinet/udp.h>				// TCP/IP Networking
+-#include	<arpa/inet.h>				// TCP/IP Networking
+-
+ #include	"gc.h"						// BoehmDW-GC
+ #include	<readline/readline.h>		// GNU ReadLine()
+ #include	<readline/history.h>		// GNU ReadLine()
 diff -ur a/syntax/flex.l b/syntax/flex.l
 --- a/syntax/flex.l	2019-01-01 23:42:55.000000000 +0900
 +++ b/syntax/flex.l	2019-01-02 23:50:45.000000000 +0900
