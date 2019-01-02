@@ -19,13 +19,22 @@ class Twintail < Formula
 	#	url 'http://dl.osdn.jp/angelmode/67782/twintail_de_angelmode.costume203.tgz'
 	#	sha256 '48d3bab53a2a453954b45c4c3a5976c7174a00822d0d55834ee08c7530caf662'
 	#else
-		url 'http://dl.osdn.jp/angelmode/70059/twintail_de_angelmode.costume223.tgz'
-		sha256 'c452e46fdbdae0c395754df910919ff35d455238515eea4cf2ed772e962ce303'
+		#url 'http://dl.osdn.jp/angelmode/70059/twintail_de_angelmode.costume223.tgz'
+		#sha256 'c452e46fdbdae0c395754df910919ff35d455238515eea4cf2ed772e962ce303'
+		url 'http://dl.osdn.jp/angelmode/70474/twintail_de_angelmode.costume240.tgz'
+		sha256 '9f01883590b40c29bcb26ff41e625e171514895b44a4b691c5a6fc2498a30bb5'
 		depends_on 'pkg-config' => :build
 		depends_on 'libatomic_ops'
 	#end
 
 	option 'with-oldlibm', 'Build with old libm, disabling tgmath and long double support'
+
+	if `uname`.chomp.end_with?('BSD') || `uname`.chomp=='Darwin'
+		patch :p1 do
+			url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail_disablenet.patch'
+			sha256 '9e5e166b18a4eee1e1fbc15c65f865d315158dcbdfdf6141a83e672a9d58bc85'
+		end
+	end
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
@@ -33,6 +42,10 @@ class Twintail < Formula
 	end
 
 	def install
+		if `uname`.chomp.end_with?('BSD') || `uname`.chomp=='Darwin'
+			system 'rm', '-rf', 'icode/inet.call'
+		end
+
 		# due to _POSIX_C_SOURCE issue, system() is rvalue, so we need to assign to a variable first.
 		system 'sed', '-i', '-e', 's/a->ival=WEXITSTATUS(system(x->str));/{int result=system(x->str);a->ival=WEXITSTATUS(result);}/', 'icode/proc.call/i_proc.c'
 		# FreeBSD does not support timezone global variable; use tm_gmtoff
