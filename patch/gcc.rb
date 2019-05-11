@@ -11,7 +11,7 @@ class Gcc < Formula
     #sha256 "be85387a2c7c9313da23e258013ff6de215cf1f0cb997b2edf72fb1af725d72f" => :high_sierra
     #sha256 "ca1bf59a0726ea16f4fe22ad98532e4ac0171bbb518154929d71d7f2032657ee" => :sierra
     rebuild 1
-    root_url "https://homebrew.bintray.com/bottles-ciel"
+    root_url "https://dl.bintray.com/cielavenir/homebrew"
     sha256 "e454e44b7b313374fbbe6e004aa5f1e8ab2eb9ad436e6f3c627681313e7eddef" => :sierra
   end
 
