@@ -1,7 +1,7 @@
---- Makefile.orig	2018-09-24 22:44:16.000000000 +0900
-+++ Makefile	2018-09-24 23:48:55.000000000 +0900
+--- Makefile.orig 2018-09-24 22:44:16.000000000 +0900
++++ Makefile 2018-09-24 23:48:55.000000000 +0900
 @@ -13,7 +13,7 @@
- BDWGC_LIB = gc-7.6.4/.libs/libgc.a
+ BDWGC_LIB = gc-8.0.0/.libs/libgc.a
  
  # GCC コンパイラオプション
 -OPT_WARN = -Wall -Werror -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-format-security
@@ -9,3 +9,12 @@
  OPT_COMP = -std=gnu9x -g -I. -I../.. -I${BDWGC_DIR}/include -I../../${BDWGC_DIR}/include
  OPT_LINK = -lm -lreadline
  
+@@ -45,7 +45,7 @@
+ 	cd syntax ; bison -d -y -v bison.y  # -d(MakeHeader) -y(PosixYacc) -v(Verbose)
+ 
+ # 仮想実行コードライブラリ
+-${LIB_FILE}: ${HDR_FILE} icode/*/*.c
++${LIB_FILE}: ${HDR_FILE} icode/*/*.c ${SYN_OC}
+ 	rm -rf ${LIB_FILE}
+ 	for d in icode/* ; \
+ 	do \

@@ -1,17 +1,19 @@
 diff -ur a/admin/inst-sysfunc.c b/admin/inst-sysfunc.c
 --- a/admin/inst-sysfunc.c	2019-01-01 23:42:56.000000000 +0900
 +++ b/admin/inst-sysfunc.c	2019-01-02 23:52:25.000000000 +0900
-@@ -88,23 +88,6 @@
+@@ -89,23 +89,6 @@
  	wr_dtab(GL_DTAB,"fprint"        ,'X',0,i_fprint     ,INVA);
  	wr_dtab(GL_DTAB,"sprint"        ,'X',0,i_sprint     ,INVA);
  	wr_dtab(GL_DTAB,"dying"         ,'X',0,i_dying      ,INVA);
 -
 -// Inet.Call: インターネット関数
--	wr_dtab(GL_DTAB,"ip2int"        ,'X',0,i_ip2int     ,INVA);
--	wr_dtab(GL_DTAB,"ip2str"        ,'X',0,i_ip2str     ,INVA);
--	wr_dtab(GL_DTAB,"port2int"      ,'X',0,i_port2int   ,INVA);
--	wr_dtab(GL_DTAB,"port2str"      ,'X',0,i_port2str   ,INVA);
--	wr_dtab(GL_DTAB,"sockinfo"      ,'X',0,i_sockinfo   ,INVA);
+-	wr_dtab(GL_DTAB,"ip2int"        ,'X',0,i_ip2int     ,1);
+-	wr_dtab(GL_DTAB,"ip2str"        ,'X',0,i_ip2str     ,1);
+-	wr_dtab(GL_DTAB,"port2int"      ,'X',0,i_port2int   ,2);
+-	wr_dtab(GL_DTAB,"port2str"      ,'X',0,i_port2str   ,2);
+-	wr_dtab(GL_DTAB,"sockinfo"      ,'X',0,i_sockinfo   ,1);
+-	wr_dtab(GL_DTAB,"raw_socket"    ,'X',0,i_raw_socket ,INVA);
+-	wr_dtab(GL_DTAB,"ping"          ,'X',0,i_ping       ,INVA);
 -	wr_dtab(GL_DTAB,"udp_socket"    ,'X',0,i_udp_socket ,INVA);
 -	wr_dtab(GL_DTAB,"tx_udp"        ,'X',0,i_tx_udp     ,INVA);
 -	wr_dtab(GL_DTAB,"rx_udp"        ,'X',0,i_rx_udp     ,INVA);
@@ -20,8 +22,6 @@ diff -ur a/admin/inst-sysfunc.c b/admin/inst-sysfunc.c
 -	wr_dtab(GL_DTAB,"connect"       ,'X',0,i_connect    ,INVA);
 -	wr_dtab(GL_DTAB,"tx_tcp"        ,'X',0,i_tx_tcp     ,INVA);
 -	wr_dtab(GL_DTAB,"rx_tcp"        ,'X',0,i_rx_tcp     ,INVA);
--	wr_dtab(GL_DTAB,"raw_socket"    ,'X',0,i_raw_socket ,INVA);
--	wr_dtab(GL_DTAB,"ping"          ,'X',0,i_ping       ,INVA);
                                            
  // Math.Call: 数学関数                   
  	wr_dtab(GL_DTAB,"sin"           ,'X',0,i_sin        ,1);

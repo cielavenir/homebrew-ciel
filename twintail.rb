@@ -21,8 +21,8 @@ class Twintail < Formula
 	#else
 		#url 'http://dl.osdn.jp/angelmode/70059/twintail_de_angelmode.costume223.tgz'
 		#sha256 'c452e46fdbdae0c395754df910919ff35d455238515eea4cf2ed772e962ce303'
-		url 'http://dl.osdn.jp/angelmode/70474/twintail_de_angelmode.costume240.tgz'
-		sha256 '9f01883590b40c29bcb26ff41e625e171514895b44a4b691c5a6fc2498a30bb5'
+		url 'http://dl.osdn.jp/angelmode/70474/twintail_de_angelmode.costume245.tgz'
+		sha256 'f4526be24c162984707c5105b1abeca071fc211da7536b2810feef5db9666d50'
 		depends_on 'pkg-config' => :build
 		depends_on 'libatomic_ops'
 	#end
@@ -32,13 +32,17 @@ class Twintail < Formula
 	if `uname`.chomp.end_with?('BSD') || `uname`.chomp=='Darwin'
 		patch :p1 do
 			url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail_disablenet.patch'
-			sha256 '029a07ea646386a6440953c92ff40675f811c4fa76a3ad3d69a400f9a8706d09'
+			sha256 '2f2653919070b5a0861e09a426a7c7a68087988c39b4d2496c7f40decd101acf'
+		end
+
+		def caveats
+			'Network functions are disabled.'
 		end
 	end
 
 	patch :p0 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail.patch'
-		sha256 '8ce77911c38451b337ffc383e650020c710b0eda769aa46312424cd72e3f0ddd'
+		sha256 '45ed23b29068774fb9e3b13d7a151864a771d4ff5e0d15be81cb772a0415a537'
 	end
 
 	def install
