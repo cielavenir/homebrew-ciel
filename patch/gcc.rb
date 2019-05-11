@@ -24,7 +24,7 @@ class Gcc < Formula
 
   patch :p1 do
 		url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/gcc9.patch'
-		sha256 '3457a7ed0226a23a206ef1c0355b60fc243551abf552eabc409699dc010a82b8'
+		sha256 '80fdfb8a08ce286eaeda863a3d955898f702c359bb6af8fc2ca0310d4d471eba'
 	end
 
   depends_on "gmp"
