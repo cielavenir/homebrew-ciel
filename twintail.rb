@@ -29,6 +29,12 @@ class Twintail < Formula
 
 	option 'with-oldlibm', 'Build with old libm, disabling tgmath and long double support'
 
+	bottle do
+		root_url "https://dl.bintray.com/cielavenir/homebrew"
+		cellar :any_skip_relocation
+		sha256 "04e1461bba776897abe87b9a4c9aa8599beee5b3b05c840ea9d906b2f7292998" => :sierra
+	end
+
 	if `uname`.chomp.end_with?('BSD') || `uname`.chomp=='Darwin'
 		patch :p1 do
 			url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/twintail_disablenet.patch'

@@ -13,6 +13,12 @@ class Unace < Formula
 		sha256 '35d534d45d88d55c0384f3e588318ab322ba9d240bd5ac37dc8e259e90c1d311'
 	end
 
+	bottle do
+		root_url "https://dl.bintray.com/cielavenir/homebrew"
+		cellar :any_skip_relocation
+		sha256 "232bcd4e53c1c814d8c7ff04acc8835d474dcd1bdaae9d1b3bd6e3debbca1715" => :sierra
+	end
+
 	def install
 		system 'sed', '-i', '-e', 's/.*malloc.h.*//', 'source/base/all/memory/memory.c' # somehow patch is failing...
 		system 'make'
