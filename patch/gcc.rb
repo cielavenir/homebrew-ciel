@@ -7,12 +7,12 @@ class Gcc < Formula
   head "https://gcc.gnu.org/git/gcc.git"
 
   bottle do
-    #sha256 "1af51e1a8c5394297c13b85548203a84279a2e24e6ab982fb299c526bdde3079" => :mojave
-    #sha256 "be85387a2c7c9313da23e258013ff6de215cf1f0cb997b2edf72fb1af725d72f" => :high_sierra
-    #sha256 "ca1bf59a0726ea16f4fe22ad98532e4ac0171bbb518154929d71d7f2032657ee" => :sierra
-    rebuild 1
+    # sha256 "1af51e1a8c5394297c13b85548203a84279a2e24e6ab982fb299c526bdde3079" => :mojave
+    # sha256 "be85387a2c7c9313da23e258013ff6de215cf1f0cb997b2edf72fb1af725d72f" => :high_sierra
+    # sha256 "ca1bf59a0726ea16f4fe22ad98532e4ac0171bbb518154929d71d7f2032657ee" => :sierra
+    rebuild 2
     root_url "https://dl.bintray.com/cielavenir/homebrew"
-    sha256 "e454e44b7b313374fbbe6e004aa5f1e8ab2eb9ad436e6f3c627681313e7eddef" => :sierra
+    sha256 "f9ba42a65409a52a949f7d8b102c0ac2cd45f32a22648f4091acd4b4f249d661" => :sierra
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
@@ -22,11 +22,6 @@ class Gcc < Formula
     satisfy { MacOS::CLT.installed? }
   end
 
-  patch :p1 do
-    url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/gcc9.patch'
-    sha256 '4127a9e46525c8e69821c0c3538875dade15e66963c2cff9600bfa105ef6cc75'
-  end
-
   depends_on "gmp"
   depends_on "isl"
   depends_on "libmpc"
@@ -34,6 +29,11 @@ class Gcc < Formula
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
+
+  patch :p1 do
+    url "http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/gcc9.patch"
+    sha256 "4127a9e46525c8e69821c0c3538875dade15e66963c2cff9600bfa105ef6cc75"
+  end
 
   def version_suffix
     if build.head?
