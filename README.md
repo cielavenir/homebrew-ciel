@@ -25,5 +25,6 @@ Ciel's homebrew formulae
 
 ## sakura
 
+- Some supplement files for sakura-server (FreeBSD).
 - https://qiita.com/cielavenir/items/67ce0ec9cd8d43ed00f1
 
