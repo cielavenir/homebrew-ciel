@@ -22,6 +22,7 @@ Ciel's homebrew formulae
 - gcc.rb / gcc9.patch
     - Installing GDC on macOS via Homebrew
     - https://qiita.com/cielavenir/items/432cfe684341f568a9d7
+    - brew pin cielavenir/ciel/gcc
 
 ## sakura
 
