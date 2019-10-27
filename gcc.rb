@@ -1,3 +1,5 @@
+# gcc9.patch is only tested on macOS.
+
 class Gcc < Formula
   desc "GNU compiler collection"
   homepage "https://gcc.gnu.org/"
@@ -117,6 +119,10 @@ class Gcc < Formula
     ext = File.extname(file)
     base = File.basename(file, ext)
     File.rename file, "#{dir}/#{base}-#{suffix}#{ext}"
+  end
+
+  def caveats
+    'upgrading gcc could remove gdc. if you need to keep gdc, do: brew pin cielavenir/ciel/gcc'
   end
 
   test do

@@ -66,4 +66,11 @@ class Twintail < Formula
 		system 'make'
 		bin.install 'tt'
 	end
+
+	test do
+		(testpath/"hello.tt").write <<~EOS
+			print("Hello, world!");
+		EOS
+		assert_equal "Hello, world!", `#{bin}/tt hello.tt`
+	end
 end
