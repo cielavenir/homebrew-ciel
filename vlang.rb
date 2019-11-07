@@ -1,6 +1,7 @@
 class Vlang < Formula
   desc "V programming language"
   homepage "https://vlang.io"
+  version "0.1.22"
   url "https://github.com/vlang/v/archive/33b5afa.tar.gz"
   sha256 "f0479782e90bbe00db3902e22403292d81a013805c8a346cb9b833b9d409257e"
 
@@ -14,7 +15,7 @@ class Vlang < Formula
       system ENV.cc,"-std=gnu11","-w","-o","v","v.c","-lm"
       libexec.install "v"
     end
-    libexec.install "vlib","examples","thirdparty","tools"
+    libexec.install "vlib","examples","thirdparty","tools","v.v"
     bin.install_symlink libexec/"v"
   end
 
@@ -27,7 +28,7 @@ class Vlang < Formula
     system "#{bin}/v", "-o", "hello-v", "hello-v.v"
     assert_equal "Hello, world!\n", `./hello-v`
 
-    #need https://github.com/vlang/v/commit/fa7e0ce58a731d393e633b68a0710c7d1e27543f to be released
+    #disabled until https://github.com/vlang/v/issues/2176 is resolved
     #shell_output("#{bin}/v test v")
   end
 end
