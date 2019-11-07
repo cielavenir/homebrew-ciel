@@ -1,12 +1,12 @@
 class Vlang < Formula
   desc "V programming language"
   homepage "https://vlang.io"
-  url "https://github.com/vlang/v/archive/0.1.20.tar.gz"
-  sha256 "8102b48b2c82be6be14633e76e71e215aab5221198315436f97be53e1abe1f5d"
+  url "https://github.com/vlang/v/archive/33b5afa.tar.gz"
+  sha256 "f0479782e90bbe00db3902e22403292d81a013805c8a346cb9b833b9d409257e"
 
   resource "vc" do
-    url "https://github.com/vlang/vc/archive/0.1.20.tar.gz"
-    sha256 "5b4fc1f39c3aef5214a3366e0d514ee2879a2e52a918dc0181df833028a0eb72"
+    url "https://github.com/vlang/vc/archive/2b1f494.tar.gz"
+    sha256 "f380c3198b912c3ae800daadfeb7ad2985d1be9692ac50c6f311079779f6ccd4"
   end
   
   def install
@@ -14,7 +14,7 @@ class Vlang < Formula
       system ENV.cc,"-std=gnu11","-w","-o","v","v.c","-lm"
       libexec.install "v"
     end
-    libexec.install "vlib","compiler","examples","thirdparty","tools"
+    libexec.install "vlib","examples","thirdparty","tools"
     bin.install_symlink libexec/"v"
   end
 
@@ -31,3 +31,8 @@ class Vlang < Formula
     #shell_output("#{bin}/v test v")
   end
 end
+
+__END__
+0.1.20 79a98d7 6a2f0a5
+0.1.21 5ac62bb 950a90b
+0.1.22 33b5afa 2b1f494
