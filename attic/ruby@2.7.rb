@@ -1,3 +1,6 @@
+### I (ciel) created this guy to test RUBY_THREAD_VM_STACK_SIZE (https://bugs.ruby-lang.org/issues/16616).
+### Already attic. Don't use.
+
 class RubyAT27 < Formula
   desc "Powerful, clean, object-oriented scripting language"
   homepage "https://www.ruby-lang.org/"
