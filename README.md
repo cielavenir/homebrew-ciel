@@ -29,3 +29,11 @@ Ciel's homebrew formulae
 - Some supplement files for sakura-server (FreeBSD).
 - https://qiita.com/cielavenir/items/67ce0ec9cd8d43ed00f1
 
+## waifu2x
+
+|formula|command|
+|:--|:--|
+|waifu2x-deadsix27|waifu2x-converter-cpp|
+|waifu2x-ueshita|waifu2x-converter-glsl|
+|waifu2x-yui0|waifu2x_glsl|
+|imxieyi/waifu2x/waifu2x|waifu2x|
