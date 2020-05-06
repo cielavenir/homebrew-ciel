@@ -34,16 +34,16 @@ end
 class Openhsp < Formula
 	desc 'Programming Language HSP (open source edition)'
 	homepage 'http://www.onionsoft.net/hsp/openhsp/'
-	head 'http://dev.onionsoft.net/svn/openhsp/trunk', :using => SubversionGuestDownloadStrategy
+	#head 'http://dev.onionsoft.net/svn/openhsp/trunk', :using => SubversionGuestDownloadStrategy
+	head 'https://github.com/onitama/OpenHSP.git', :revision => "c393102795caab97ec61803900235d7b7569a787"
 
 	def install
-		system 'sed -e "s/--input-charset=cp932 --exec-charset=cp932//" < hsp3/makefile.linux > hsp3/makefile.clang'
-		system 'sed -i -e "s/linux\/main.o/linux\/main.o linux\/hsp3ext_sock.o/" hsp3/makefile.clang' # https://github.com/onitama/OpenHSP/issues/6
-		system 'sed -e "s/--input-charset=cp932 --exec-charset=cp932//" < hspcmp/makefile.linux > hspcmp/makefile.clang'
-		system 'make -C hsp3 -f makefile.clang'
-		system 'make -C hspcmp -f makefile.clang'
-		bin.install 'hsp3/hsp3'
-		bin.install 'hspcmp/hspcmp'
+		system 'sed -e "s/--input-charset=cp932 --exec-charset=cp932//" < src/hsp3/makefile.linux > src/hsp3/makefile.clang'
+		system 'sed -e "s/--input-charset=cp932 --exec-charset=cp932//" < src/hspcmp/makefile.linux > src/hspcmp/makefile.clang'
+		system 'make -C src/hsp3 -f makefile.clang'
+		system 'make -C src/hspcmp -f makefile.clang'
+		bin.install 'src/hsp3/hsp3'
+		bin.install 'src/hspcmp/hspcmp'
 	end
 
 	def caveats
