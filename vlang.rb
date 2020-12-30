@@ -1,21 +1,13 @@
 class Vlang < Formula
   desc "V programming language"
   homepage "https://vlang.io"
-  version "0.1.22"
-  url "https://github.com/vlang/v/archive/33b5afa.tar.gz"
-  sha256 "f0479782e90bbe00db3902e22403292d81a013805c8a346cb9b833b9d409257e"
-
-  resource "vc" do
-    url "https://github.com/vlang/vc/archive/2b1f494.tar.gz"
-    sha256 "f380c3198b912c3ae800daadfeb7ad2985d1be9692ac50c6f311079779f6ccd4"
-  end
+  version "0.2.1"
+  url "https://github.com/vlang/v/archive/0.2.1.tar.gz"
+  sha256 "0e7d37e7ef7a5001b86811239770bd3bc13949a6489e0de87b59d9e50ea342c9"
   
   def install
-    resource("vc").stage do
-      system ENV.cc,"-std=gnu11","-w","-o","v","v.c","-lm"
-      libexec.install "v"
-    end
-    libexec.install "vlib","examples","thirdparty","tools","v.v"
+    system 'make'
+    libexec.install "v","vlib","examples","thirdparty","cmd","v.mod"
     bin.install_symlink libexec/"v"
   end
 
@@ -28,12 +20,12 @@ class Vlang < Formula
     system "#{bin}/v", "-o", "hello-v", "hello-v.v"
     assert_equal "Hello, world!\n", `./hello-v`
 
-    #disabled until https://github.com/vlang/v/issues/2176 is resolved
-    #shell_output("#{bin}/v test v")
+    FileUtils.cp_r(libexec/"v",testpath)
+    FileUtils.cp_r(libexec/"v.mod",testpath)
+    FileUtils.cp_r(libexec/"cmd",testpath)
+    FileUtils.cp_r(libexec/"vlib",testpath)
+    FileUtils.cp_r(libexec/"thirdparty",testpath)
+    # https://github.com/vlang/v/issues/2176 does not resolve that we need to copy all files to testpath
+    shell_output("#{testpath}/v test #{testpath}/")
   end
 end
-
-__END__
-0.1.20 79a98d7 6a2f0a5
-0.1.21 5ac62bb 950a90b
-0.1.22 33b5afa 2b1f494
