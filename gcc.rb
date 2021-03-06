@@ -3,15 +3,16 @@
 class Gcc < Formula
   desc "GNU compiler collection"
   homepage "https://gcc.gnu.org/"
-  url "https://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.1.0/gcc-10.1.0.tar.xz"
-  sha256 "b6898a23844b656f1b68691c5c012036c2e694ac4b53a8918d4712ad876e7ea2"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
+  sha256 "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
   head "https://gcc.gnu.org/git/gcc.git"
 
   bottle do
     root_url "https://dl.bintray.com/cielavenir/homebrew"
-    sha256 "865d601f14ae8baea819a36c096a885aa488fbd9d9967f78a0bd27c5e8df76ba" => :catalina
-    sha256 "865d601f14ae8baea819a36c096a885aa488fbd9d9967f78a0bd27c5e8df76ba" => :mojave
+    sha256 "f5ad759d9a041b2488fd225efa053f4af6f588274d1dfc7193f835e454f0c847" => :big_sur
+    sha256 "f5ad759d9a041b2488fd225efa053f4af6f588274d1dfc7193f835e454f0c847" => :catalina
+    sha256 "f5ad759d9a041b2488fd225efa053f4af6f588274d1dfc7193f835e454f0c847" => :mojave
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
