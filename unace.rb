@@ -15,8 +15,7 @@ class Unace < Formula
 
 	bottle do
 		root_url "https://dl.bintray.com/cielavenir/homebrew"
-		cellar :any_skip_relocation
-		sha256 "232bcd4e53c1c814d8c7ff04acc8835d474dcd1bdaae9d1b3bd6e3debbca1715" => :sierra
+		sha256 cellar: :any_skip_relocation, sierra: "232bcd4e53c1c814d8c7ff04acc8835d474dcd1bdaae9d1b3bd6e3debbca1715"
 	end
 
 	def install

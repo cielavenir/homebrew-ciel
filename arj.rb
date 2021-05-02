@@ -30,7 +30,7 @@ class Arj < Formula
 
 	bottle do
 		root_url "https://dl.bintray.com/cielavenir/homebrew"
-		sha256 "bde513c232f1ec16d85370368e8f768986513b9c5ca5635a3124108b2e289e99" => :sierra
+		sha256 sierra: "bde513c232f1ec16d85370368e8f768986513b9c5ca5635a3124108b2e289e99"
 	end
 
 	def install

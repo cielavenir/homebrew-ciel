@@ -31,8 +31,7 @@ class Twintail < Formula
 
 	bottle do
 		root_url "https://dl.bintray.com/cielavenir/homebrew"
-		cellar :any_skip_relocation
-		sha256 "04e1461bba776897abe87b9a4c9aa8599beee5b3b05c840ea9d906b2f7292998" => :sierra
+		sha256 cellar: :any_skip_relocation, sierra: "04e1461bba776897abe87b9a4c9aa8599beee5b3b05c840ea9d906b2f7292998"
 	end
 
 	if `uname`.chomp.end_with?('BSD') || `uname`.chomp=='Darwin'
