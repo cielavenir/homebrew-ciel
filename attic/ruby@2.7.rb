@@ -9,7 +9,7 @@ class RubyAT27 < Formula
 
   bottle do
     #rebuild 1
-    #sha256 "" => :mojave
+    #sha256 mojave: ""
   end
 
   head do

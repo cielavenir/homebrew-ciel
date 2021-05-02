@@ -13,13 +13,6 @@ class Libiconv < Formula
   mirror "https://ftpmirror.gnu.org/libiconv/libiconv-1.16.tar.gz"
   sha256 "e6a1b1b589654277ee790cce3734f07876ac4ccfaecbee8afa0b649cf529cc04"
 
-  bottle do
-    cellar :any
-    sha256 "7638dd8e2d511a2ce14c6c420762ce7fdbae6a34158e25015c3ffd88de2dd19b" => :mojave
-    sha256 "0f7f5728be3b7fc082a62df5e38cf1f1f9dc540e95f0c3479788cc2e2dee7294" => :high_sierra
-    sha256 "2c40a7b0486b9394f5f4cb6304179527421b68c965c49d961cf2703205da93e1" => :sierra
-  end
-
   #keg_only :provided_by_macos
 
   #depends_on MacOSRequirement
