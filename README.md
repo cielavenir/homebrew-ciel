@@ -2,6 +2,8 @@
 
 Ciel's homebrew formulae
 
+gdc on macOS: gcc 11 supports gdc officially. please copy attic/gcc.rb to /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/ .
+
 ## patch
 
 - gen_debian.rb
@@ -19,10 +21,6 @@ Ciel's homebrew formulae
     - https://github.com/Homebrew/formula-patches/pull/71 (Already resolved)
 - rust.patch
     - Done in upstream.
-- gcc.rb / gcc9.patch
-    - Installing GDC on macOS via Homebrew
-    - https://qiita.com/cielavenir/items/432cfe684341f568a9d7
-    - brew pin cielavenir/ciel/gcc
 
 ## sakura
 

@@ -1,25 +1,31 @@
-# gcc9.patch is only tested on macOS.
-
 class Gcc < Formula
   desc "GNU compiler collection"
   homepage "https://gcc.gnu.org/"
-  url "https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  sha256 "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz"
+  sha256 "4c4a6fb8a8396059241c2e674b85b351c26a5d678274007f076957afa1cc9ddf"
+  license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
   head "https://gcc.gnu.org/git/gcc.git"
+
+  livecheck do
+    url :stable
+    regex(%r{href=.*?gcc[._-]v?(\d+(?:\.\d+)+)(?:/?["' >]|\.t)}i)
+  end
 
   bottle do
     root_url "https://dl.bintray.com/cielavenir/homebrew"
-    sha256 "f5ad759d9a041b2488fd225efa053f4af6f588274d1dfc7193f835e454f0c847" => :big_sur
-    sha256 "f5ad759d9a041b2488fd225efa053f4af6f588274d1dfc7193f835e454f0c847" => :catalina
-    sha256 "f5ad759d9a041b2488fd225efa053f4af6f588274d1dfc7193f835e454f0c847" => :mojave
+    sha256 big_sur:  "6aab1e2378f974e9982921a6e9ee0d1b9ba3432d7f842de0b96d1ea8a22b8c43"
+    sha256 catalina: "6aab1e2378f974e9982921a6e9ee0d1b9ba3432d7f842de0b96d1ea8a22b8c43"
+    sha256 mojave:   "6aab1e2378f974e9982921a6e9ee0d1b9ba3432d7f842de0b96d1ea8a22b8c43"
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? do
-    reason "The bottle needs the Xcode CLT to be installed."
-    satisfy { MacOS::CLT.installed? }
+    on_macos do
+      reason "The bottle needs the Xcode CLT to be installed."
+      satisfy { MacOS::CLT.installed? }
+    end
   end
 
   depends_on "gmp"
@@ -29,19 +35,18 @@ class Gcc < Formula
 
   uses_from_macos "zlib"
 
+  on_linux do
+    depends_on "binutils"
+  end
+
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
-
-  patch :p1 do
-    url "http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/gcc9.patch"
-    sha256 "4127a9e46525c8e69821c0c3538875dade15e66963c2cff9600bfa105ef6cc75"
-  end
 
   def version_suffix
     if build.head?
       "HEAD"
     else
-      version.to_s.slice(/\d+/)
+      version.major.to_s
     end
   end
 
@@ -55,11 +60,10 @@ class Gcc < Formula
     #  - BRIG
     languages = %w[c c++ objc obj-c++ d fortran]
 
-    osmajor = `uname -r`.split(".").first
     pkgversion = "Homebrew GCC #{pkg_version} #{build.used_options*" "}".strip
+    cpu = Hardware::CPU.arm? ? "aarch64" : "x86_64"
 
     args = %W[
-      --build=x86_64-apple-darwin#{osmajor}
       --prefix=#{prefix}
       --libdir=#{lib}/gcc/#{version_suffix}
       --disable-nls
@@ -71,27 +75,28 @@ class Gcc < Formula
       --with-mpfr=#{Formula["mpfr"].opt_prefix}
       --with-mpc=#{Formula["libmpc"].opt_prefix}
       --with-isl=#{Formula["isl"].opt_prefix}
-      --with-system-zlib
       --with-pkgversion=#{pkgversion}
-      --with-bugurl=https://github.com/Homebrew/homebrew-core/issues
+      --with-bugurl=#{tap.issues_url}
     ]
 
-    # Xcode 10 dropped 32-bit support
-    args << "--disable-multilib" if DevelopmentTools.clang_build_version >= 1000
+    on_macos do
+      args << "--build=#{cpu}-apple-darwin#{OS.kernel_version.major}"
+      args << "--with-system-zlib"
 
-    # System headers may not be in /usr/include
-    sdk = MacOS.sdk_path_if_needed
-    if sdk
-      args << "--with-native-system-header-dir=/usr/include"
-      args << "--with-sysroot=#{sdk}"
+      # Xcode 10 dropped 32-bit support
+      args << "--disable-multilib" if DevelopmentTools.clang_build_version >= 1000
+
+      # System headers may not be in /usr/include
+      sdk = MacOS.sdk_path_if_needed
+      if sdk
+        args << "--with-native-system-header-dir=/usr/include"
+        args << "--with-sysroot=#{sdk}"
+      end
+
+      # Ensure correct install names when linking against libgcc_s;
+      # see discussion in https://github.com/Homebrew/legacy-homebrew/pull/34303
+      inreplace "libgcc/config/t-slibgcc-darwin", "@shlib_slibdir@", "#{HOMEBREW_PREFIX}/lib/gcc/#{version_suffix}"
     end
-
-    # Avoid reference to sed shim
-    args << "SED=/usr/bin/sed"
-
-    # Ensure correct install names when linking against libgcc_s;
-    # see discussion in https://github.com/Homebrew/legacy-homebrew/pull/34303
-    inreplace "libgcc/config/t-slibgcc-darwin", "@shlib_slibdir@", "#{HOMEBREW_PREFIX}/lib/gcc/#{version_suffix}"
 
     mkdir "build" do
       system "../configure", *args
@@ -121,10 +126,6 @@ class Gcc < Formula
     File.rename file, "#{dir}/#{base}-#{suffix}#{ext}"
   end
 
-  def caveats
-    'upgrading gcc could remove gdc. if you need to keep gdc, do: brew pin cielavenir/ciel/gcc'
-  end
-
   test do
     (testpath/"hello-c.c").write <<~EOS
       #include <stdio.h>
@@ -139,9 +140,13 @@ class Gcc < Formula
 
     (testpath/"hello-cc.cc").write <<~EOS
       #include <iostream>
+      struct exception { };
       int main()
       {
         std::cout << "Hello, world!" << std::endl;
+        try { throw exception{}; }
+          catch (exception) { }
+          catch (...) { }
         return 0;
       }
     EOS
