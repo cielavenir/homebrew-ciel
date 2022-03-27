@@ -8,7 +8,7 @@ class Cryptopp < Formula
   license "BSD-3-Clause"
 
   # https://cryptopp.com/wiki/Config.h#Options_and_Defines
-  bottle :disable, "Library and clients must be built on the same microarchitecture"
+  # bottle :disable, "Library and clients must be built on the same microarchitecture"
 
   def install
     system "make", "shared", "all", "CXX=#{ENV.cxx}"
