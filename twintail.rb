@@ -16,12 +16,12 @@ class Twintail < Formula
 		# LinuxBrew running on FreeBSD ( https://qiita.com/cielavenir/items/741921fcecb281555f77 )
 		# libc can be very old so that 204 cannot be compiled.
 		# Also, --with-oldlibm is required.
-	#	url 'http://dl.osdn.jp/angelmode/67782/twintail_de_angelmode.costume203.tgz'
+	#	url 'http://osdn.dl.osdn.jp/angelmode/67782/twintail_de_angelmode.costume203.tgz'
 	#	sha256 '48d3bab53a2a453954b45c4c3a5976c7174a00822d0d55834ee08c7530caf662'
 	#else
-		#url 'http://dl.osdn.jp/angelmode/70059/twintail_de_angelmode.costume223.tgz'
+		#url 'http://osdn.dl.osdn.jp/angelmode/70059/twintail_de_angelmode.costume223.tgz'
 		#sha256 'c452e46fdbdae0c395754df910919ff35d455238515eea4cf2ed772e962ce303'
-		url 'http://dl.osdn.jp/angelmode/70474/twintail_de_angelmode.costume245.tgz'
+		url 'http://osdn.dl.osdn.jp/angelmode/70474/twintail_de_angelmode.costume245.tgz'
 		sha256 'f4526be24c162984707c5105b1abeca071fc211da7536b2810feef5db9666d50'
 		depends_on 'pkg-config' => :build
 		depends_on 'libatomic_ops'
