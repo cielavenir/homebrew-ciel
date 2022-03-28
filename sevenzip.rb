@@ -7,9 +7,18 @@ class Sevenzip < Formula
   version "21.07"
   sha256 "213d594407cb8efcba36610b152ca4921eda14163310b43903d13e68313e1e39"
   # head 'https://github.com/cielavenir/7-Zip-PKImplode.git', :revision => "4d5f9fa97e7c420c52a6c2df53665a4501222bd8"
-  license all_of: ["LGPL-2.1-or-later", "BSD-3-Clause"]
+  if respond_to? :license
+    license all_of: ["LGPL-2.1-or-later", "BSD-3-Clause"]
+  end
 
   conflicts_with "p7zip"
+
+  if `uname`.chomp.end_with?('BSD')
+    patch :p1 do
+      url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/7z_freebsd.patch'
+      sha256 '14db8f3832e93f0fc50dd950f460d80f9b0e55bbe52f3fafc3b0b3034db17d5e'
+    end
+  end
 
   def install
     [
