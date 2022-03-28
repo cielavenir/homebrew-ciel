@@ -1,0 +1,10 @@
+diff --git a/CPP/7zip/Bundles/SFXCon/makefile.gcc b/CPP/7zip/Bundles/SFXCon/makefile.gcc
+index a102025..4db3278 100644
+--- a/CPP/7zip/Bundles/SFXCon/makefile.gcc
++++ b/CPP/7zip/Bundles/SFXCon/makefile.gcc
+@@ -1,4 +1,4 @@
+-PROG = 7zCon
++PROG = 7zCon.sfx
+ 
+ # IS_X64 = 1
+ # USE_ASM = 1
