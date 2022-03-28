@@ -13,6 +13,11 @@ class Sevenzip < Formula
 
   conflicts_with "p7zip"
 
+  patch :p1 do
+    url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/7z_sfxFilename.patch'
+    sha256 'ca7b4eb076b8c31ab5bcad88832130b86a8a6d6c68aaf8f4b53601773a36cac5'
+  end
+
   if `uname`.chomp.end_with?('BSD')
     patch :p1 do
       url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/7z_freebsd.patch'
@@ -26,6 +31,7 @@ class Sevenzip < Formula
       ["CPP/7zip/Bundles/Alone2", "7zz"],
       ["CPP/7zip/Bundles/Alone7z", "7zr"],
       ["CPP/7zip/Bundles/Format7zF", "7z.so"],
+      ["CPP/7zip/Bundles/SFXCon", "7zCon.sfx"],
       ["CPP/7zip/UI/Console", "7z"],
       ["CPP/7zip/UI/Client7z", "7zcl"],
     ].each do |make_dir, prog|
