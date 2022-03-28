@@ -1,5 +1,5 @@
 # Only for CentOS7.
-# Without installing this brew cannot unpack tar.xz.
+# Without installing this, brew cannot unpack tar.xz internally.
 
 # Upstream project has requested we use a mirror as the main URL
 # https://github.com/Homebrew/homebrew/pull/21419
@@ -18,7 +18,12 @@ class Xz < Formula
 
   # patch liblzma for CentOS7
   # https://stackoverflow.com/a/50518491
-  patch :DATA
+  if true # `uname`.chomp.end_with?('')
+    patch :p1 do
+      url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/xz_centos7.patch'
+      sha256 '0a65a3eb48ac42ed3a8d60079c1423465002b73bd2d89c55dd512c5c84381e38'
+    end
+  end
 
   def install
     system "./configure", "--disable-debug",
@@ -43,28 +48,3 @@ class Xz < Formula
     assert_equal original_contents, path.read
   end
 end
-
-__END__
---- a/src/liblzma/liblzma.map 2015-09-29 12:57:36.000000000 +0200
-+++ b/src/liblzma/liblzma.map 2017-02-22 11:10:33.432868185 +0100
-@@ -95,7 +95,13 @@
- 	lzma_vli_size;
- };
- 
--XZ_5.2 {
-+XZ_5.1.2alpha {
-+global:
-+	lzma_stream_encoder_mt;
-+	lzma_stream_encoder_mt_memusage;
-+} XZ_5.0;
-+
-+XZ_5.2.2 {
- global:
- 	lzma_block_uncomp_encode;
- 	lzma_cputhreads;
-@@ -105,4 +111,4 @@
- 
- local:
- 	*;
--} XZ_5.0;
-+} XZ_5.1.2alpha;
