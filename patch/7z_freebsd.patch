@@ -1,0 +1,61 @@
+diff -ur a/CPP/Windows/FileDir.cpp b/CPP/Windows/FileDir.cpp
+--- a/CPP/Windows/FileDir.cpp	2021-11-24 22:00:00.000000000 +0900
++++ b/CPP/Windows/FileDir.cpp	2022-03-28 09:37:45.000000000 +0900
+@@ -1006,7 +1006,7 @@
+ 
+   const int flags = 0; // follow link
+     // = AT_SYMLINK_NOFOLLOW; // don't follow link
+-  return utimensat(AT_FDCWD, path, times, flags) == 0;
++  return 1; //utimensat(AT_FDCWD, path, times, flags) == 0;
+ }
+ 
+ 
+diff -ur a/CPP/Windows/System.cpp b/CPP/Windows/System.cpp
+--- a/CPP/Windows/System.cpp	2021-10-18 19:33:42.000000000 +0900
++++ b/CPP/Windows/System.cpp	2022-03-28 09:37:31.000000000 +0900
+@@ -7,7 +7,7 @@
+ #ifdef __APPLE__
+ #include <sys/sysctl.h>
+ #else
+-#include <sys/sysinfo.h>
++//#include <sys/sysinfo.h>
+ #endif
+ #endif
+ 
+@@ -181,7 +181,7 @@
+ 
+ bool GetRamSize(UInt64 &size)
+ {
+-  size = (UInt64)(sizeof(size_t)) << 29;
++  size = (UInt64)(sizeof(size_t)) << 29;return true;
+ 
+   #ifdef __APPLE__
+ 
+@@ -210,13 +210,13 @@
+   // fixme
+   #else
+ 
+-  struct sysinfo info;
++  /*struct sysinfo info;
+   if (::sysinfo(&info) != 0)
+     return false;
+   size = (UInt64)info.mem_unit * info.totalram;
+   const UInt64 kLimit = (UInt64)1 << (sizeof(size_t) * 8 - 1);
+   if (size > kLimit)
+-    size = kLimit;
++    size = kLimit*/;
+ 
+   /*
+   printf("\n mem_unit  = %lld", (UInt64)info.mem_unit);
+diff -ur a/CPP/Windows/SystemInfo.cpp b/CPP/Windows/SystemInfo.cpp
+--- a/CPP/Windows/SystemInfo.cpp	2021-11-06 17:19:39.000000000 +0900
++++ b/CPP/Windows/SystemInfo.cpp	2022-03-28 09:37:34.000000000 +0900
+@@ -18,7 +18,7 @@
+ #include <sys/sysctl.h>
+ #elif !defined(_AIX)
+ 
+-#include <sys/auxv.h>
++//#include <sys/auxv.h>
+ 
+ // #undef AT_HWCAP    // to debug
+ // #undef AT_HWCAP2   // to debug
