@@ -1,3 +1,17 @@
+diff -ur a/C/7zTypes.h b/C/7zTypes.h
+--- a/C/7zTypes.h	2021-12-25 21:00:00.000000000 +0900
++++ b/C/7zTypes.h	2022-03-28 09:43:18.000000000 +0900
+@@ -200,8 +200,8 @@
+ // typedef void VOID;
+ // typedef ULONG_PTR DWORD_PTR, *PDWORD_PTR;
+ // gcc / clang on Unix  : sizeof(long==sizeof(void*) in 32 or 64 bits)
+-typedef          long  INT_PTR;
+-typedef unsigned long  UINT_PTR;
++//typedef          long  INT_PTR;
++//typedef unsigned long  UINT_PTR;
+ typedef          long  LONG_PTR;
+ typedef unsigned long  DWORD_PTR;
+ 
 diff -ur a/CPP/Windows/FileDir.cpp b/CPP/Windows/FileDir.cpp
 --- a/CPP/Windows/FileDir.cpp	2021-11-24 22:00:00.000000000 +0900
 +++ b/CPP/Windows/FileDir.cpp	2022-03-28 09:37:45.000000000 +0900
