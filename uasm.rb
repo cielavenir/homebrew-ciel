@@ -5,7 +5,12 @@ class Uasm < Formula
 	sha256 'ae0df97bedd0d3e74e9731ea27d73978b1914aae792d913a3c9029a4d5890192'
 
 	def install
-		system 'make', '-f', 'gccLinux64.mak'
+		if OS.mac?
+			system 'sed', '-i', '-e', 's/-ansi//', 'ClangOSX64.mak'
+			system 'make', '-f', 'ClangOSX64.mak'
+		else
+			system 'make', '-f', 'gccLinux64.mak'
+		end
 		bin.install 'GccUnixR/uasm'
 	end
 end
