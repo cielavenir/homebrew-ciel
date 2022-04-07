@@ -6,7 +6,7 @@ class Uasm < Formula
 
 	def install
 		if OS.mac?
-			system 'sed', '-i', '-e', 's/-ansi//', 'ClangOSX64.mak'
+			system 'sed', '-i', '-e', 's/-ansi/-Wno-error=implicit-function-declaration/', 'ClangOSX64.mak'
 			system 'make', '-f', 'ClangOSX64.mak'
 		else
 			system 'make', '-f', 'gccLinux64.mak'
