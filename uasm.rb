@@ -9,6 +9,7 @@ class Uasm < Formula
 			system 'sed', '-i', '-e', 's/-ansi/-Wno-error=implicit-function-declaration/', 'ClangOSX64.mak'
 			system 'make', '-f', 'ClangOSX64.mak'
 		else
+			system 'sed', '-i', '-e', 's/extra_c_flags = /extra_c_flags = -std=gnu99 /', 'gccLinux64.mak'
 			system 'make', '-f', 'gccLinux64.mak'
 		end
 		bin.install 'GccUnixR/uasm'
