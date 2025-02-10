@@ -3,9 +3,9 @@ require 'fileutils'
 class Sevenzip < Formula
   desc "7-Zip is a file archiver with a high compression ratio"
   homepage "https://7-zip.org"
-  url "https://7-zip.org/a/7z2107-src.tar.xz"
-  version "21.07"
-  sha256 "213d594407cb8efcba36610b152ca4921eda14163310b43903d13e68313e1e39"
+  url "https://7-zip.org/a/7z2409-src.tar.xz"
+  version "24.09"
+  sha256 "49c05169f49572c1128453579af1632a952409ced028259381dac30726b6133a"
   # head 'https://github.com/cielavenir/7-Zip-PKImplode.git', :revision => "4d5f9fa97e7c420c52a6c2df53665a4501222bd8"
   if respond_to? :license
     license all_of: ["LGPL-2.1-or-later", "BSD-3-Clause"]
@@ -16,13 +16,6 @@ class Sevenzip < Formula
   patch :p1 do
     url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/7z_sfxFilename.patch'
     sha256 'ca7b4eb076b8c31ab5bcad88832130b86a8a6d6c68aaf8f4b53601773a36cac5'
-  end
-
-  if `uname`.chomp.end_with?('BSD')
-    patch :p1 do
-      url 'http://raw.githubusercontent.com/cielavenir/homebrew-ciel/master/patch/7z_freebsd.patch'
-      sha256 '14db8f3832e93f0fc50dd950f460d80f9b0e55bbe52f3fafc3b0b3034db17d5e'
-    end
   end
 
   def install
@@ -52,7 +45,10 @@ class Sevenzip < Formula
       (lib/"7-zip-full").install "#{make_dir}/b/#{directory}/#{prog}"
     end
     FileUtils.makedirs(bin)
-    ["7za", "7zz", "7zr", "7z"].each{|prog| File.write(bin/prog,%Q(#!/bin/sh\nexec #{lib/"7-zip-full"/prog} "$@"\n)) }
+    ["7za", "7zz", "7zr", "7z"].each{|prog|
+      File.write(bin/prog,%Q(#!/bin/sh\nexec #{lib/"7-zip-full"/prog} "$@"\n))
+      File.chmod(0755,bin/prog)
+    }
   end
 
   test do
